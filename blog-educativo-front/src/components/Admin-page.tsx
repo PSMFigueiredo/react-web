@@ -1,11 +1,7 @@
-import {Post} from "../types/types-post.ts";
 import React from "react";
 import {Link} from "react-router-dom";
+import {AdminPageProps} from "../types/AdminPage.ts";
 
-interface AdminPageProps {
-    posts: Post[];
-    deletePost: (id: number) => void;
-}
 
 const AdminPage: React.FC<AdminPageProps> = ({posts, deletePost}) => {
 

@@ -1,9 +1,7 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {CreatePostProps} from "../types/CreatePost.ts";
 
-interface CreatePostProps {
-    addPost: (post: {title: string; description: string; content: string; author: string}) => void;
-}
 
 const CreatePost: React.FC<CreatePostProps> = ({ addPost }) => {
     const [title, setTitle] = useState('');
@@ -14,10 +12,9 @@ const CreatePost: React.FC<CreatePostProps> = ({ addPost }) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (title && content && author) {
-            addPost({title, description, content, author});
-            navigate('/');
-        }
+        addPost({title, description, content, author});
+        navigate('/');
+
     };
 
     return(

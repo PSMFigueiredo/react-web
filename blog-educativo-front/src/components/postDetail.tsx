@@ -1,11 +1,7 @@
 import React, {useState} from "react";
 import {Link, useParams} from "react-router-dom";
-import {Post} from "../../types/types-post.ts";
+import {PostDetailProps} from "../types/PostDetail.ts";
 
-
-interface PostDetailProps {
-    posts: Post[];
-}
 
 const PostDetail: React.FC<PostDetailProps> = ({ posts }) => {
     const {id} = useParams<{ id: string }>();

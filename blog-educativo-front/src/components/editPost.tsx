@@ -1,12 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import {Post} from "../../types/types-post.ts";
+import {editPostProps} from "../types/EditPost.ts";
 
-
-interface editPostProps {
-    posts: Post[];
-    updatePost: (updatePost: Post) => void;
-}
 
 const EditPost: React.FC<editPostProps> = ({posts, updatePost}) => {
     const {id} = useParams<{id: string}>();
