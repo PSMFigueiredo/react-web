@@ -3,6 +3,9 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import {AuthProvider} from "./auth/authContext.tsx";
 import AppRoutes from "./routes/AppRoutes.tsx";
 import {Post} from "./types/types-post.ts";
+import Header from "./components/Header/Header.tsx";
+import MainContent from "./components/MainContent/MainContent.tsx";
+import Footer from "./components/Footer/footer.tsx";
 
 
 const App: React.FC = () => {
@@ -13,11 +16,17 @@ const App: React.FC = () => {
         setPosts([...posts, newPostWithId]);
     };
      return (
+         <div className="app-container">
+             <Header />
+             <MainContent>
         <AuthProvider>
         <Router>
             <AppRoutes posts={posts} addPost={addPost} />
         </Router>
         </AuthProvider>
+             </MainContent>
+             <Footer />
+    </div>
 );
 };
 

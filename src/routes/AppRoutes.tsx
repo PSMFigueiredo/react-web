@@ -1,13 +1,13 @@
 import React from "react";
 import {useAuth} from "../auth/authContext.tsx";
 import {Link, Route, Routes} from "react-router-dom";
-import PostDetail from "../components/postDetail.tsx";
-import LoginPage from "../components/LoginPage.tsx";
-import ProtectedRoute from "../components/ProtectedRoute.tsx";
-import CreatePost from "../components/createPost.tsx";
-import EditPost from "../components/editPost.tsx";
-import AdminPage from "../components/Admin-page.tsx";
-import PostList from "../components/postList.tsx";
+import PostDetail from "../pages/postDetail.tsx";
+import LoginPage from "../pages/LoginPage.tsx";
+import ProtectedRoute from "../pages/ProtectedRoute.tsx";
+import CreatePost from "../pages/createPost.tsx";
+import EditPost from "../pages/editPost.tsx";
+import AdminPage from "../pages/Admin-page.tsx";
+import PostList from "../pages/postList.tsx";
 import {Post} from "../types/types-post.ts";
 
 interface AppRoutesProps {
