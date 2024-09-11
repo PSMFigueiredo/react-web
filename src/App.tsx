@@ -18,6 +18,7 @@ const App: React.FC = () => {
      return (
          <div className="app-container">
              <Header />
+             <div>
              <MainContent>
         <AuthProvider>
         <Router>
@@ -25,6 +26,7 @@ const App: React.FC = () => {
         </Router>
         </AuthProvider>
              </MainContent>
+             </div>
              <Footer />
     </div>
 );

@@ -9,33 +9,6 @@ const PostListContainer = styled.div`
     padding: 20px;
 `;
 
-const PostItem = styled.div`
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    margin: 10px;
-    width: 100%;
-    max-width: 600px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-`;
-
-const PostTitle = styled.h2`
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 10px;
-`;
-
-const PostAuthor = styled.p`
-    font-size: 14px;
-    color: #666;
-`;
-
-const PostDescription = styled.p`
-    font-size: 14px;
-    color: #666;
-`;
-
 const PostList: React.FC<PostListProps> = ({ posts }) => {
     if (posts.length === 0) {
 return <p>Sem posts encontrados.</p>;
