@@ -5,10 +5,9 @@ const HeaderContainer = styled.header`
     display: flex;
     background-color: blue;
     color: white;
-    justify-content: space-between;
     padding: 20px 40px;
-    margin: 0 auto;
-    max-width: 1200px;
+    border: solid red 3px;
+    //margin: 0 auto;
     align-items: center;
     width: 100%;
 `;

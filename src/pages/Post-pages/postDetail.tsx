@@ -1,6 +1,7 @@
+
 import React, {useState} from "react";
 import {Link, useParams} from "react-router-dom";
-import {PostDetailProps} from "../types/PostDetail.ts";
+import {PostDetailProps} from "../../types/PostDetail.ts";
 import styled from "styled-components";
 
 const PostDetailContainer = styled.div`

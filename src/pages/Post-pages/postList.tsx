@@ -1,7 +1,8 @@
 import React from "react";
-import {PostListProps} from "../types/postList.ts";
+import {PostListProps} from "../../types/postList.ts";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
+import {Post} from "../../types/types-post.ts";
 
 const PostListContainer = styled.div`
     display: flex;

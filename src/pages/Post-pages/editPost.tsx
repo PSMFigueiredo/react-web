@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import {editPostProps} from "../types/EditPost.ts";
+import {editPostProps} from "../../types/EditPost.ts";
 
 
 const EditPost: React.FC<editPostProps> = ({posts, updatePost}) => {

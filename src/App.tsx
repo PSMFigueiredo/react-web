@@ -21,9 +21,7 @@ const App: React.FC = () => {
              <div>
              <MainContent>
         <AuthProvider>
-        <Router>
             <AppRoutes posts={posts} addPost={addPost} />
-        </Router>
         </AuthProvider>
              </MainContent>
              </div>
