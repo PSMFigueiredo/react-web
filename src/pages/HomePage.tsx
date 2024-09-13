@@ -7,7 +7,7 @@ const HomeContainer = styled.div`
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #f9f9f9;
+    background-color:#6959CD;
     padding: 20px;
 `;
 

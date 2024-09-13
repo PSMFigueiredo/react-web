@@ -2,14 +2,13 @@ import React from "react";
 import styled from "styled-components";
 
 const HeaderContainer = styled.header`
-    display: flex;
-    background-color: blue;
+    background-color: #191970;
     color: white;
     padding: 20px 40px;
-    border: solid red 3px;
-    //margin: 0 auto;
-    align-items: center;
-    width: 100%;
+    margin: 0 auto;
+    position:absolute;
+    top: 0px;
+    width:100%;
 `;
 
 const HeaderTitle = styled.h1`
@@ -20,6 +19,7 @@ const Nav = styled.nav`
     ul {
         list-style: none;
         display: flex;
+        justify-content:center;
         margin: 0;
         padding: 0;
         
