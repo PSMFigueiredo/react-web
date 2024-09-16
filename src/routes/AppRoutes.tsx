@@ -9,6 +9,7 @@ import EditPost from '../pages/Post-pages/editPost';
 import AdminPage from '../pages/professors-pages/Admin-page';
 
 
+
 const ProtectedRoute: React.FC<{children: JSX.Element; role?: string}> = ({children, role}) => {
     const { user } = useAuth();
 

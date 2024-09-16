@@ -36,15 +36,10 @@ const Image = styled.img`
 `;
 
 const HomePage: React.FC = () => {
-    const [imageUrl, setImageUrl] = React.useState<string>(
-        'http://via.placeholder.com/600'
-    );
-
     return (
         <HomeContainer>
             <Heading>Bem-vindo ao Blog Escola</Heading>
             <SubHeading> Explore os posts dos seus professores, comente em um post que tenha gostado!</SubHeading>
-            <Image src={imageUrl} alt="Imagem de destaque" />
         </HomeContainer>
     );
 };

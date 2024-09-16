@@ -1,8 +1,10 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {AdminPageProps} from "../../types/AdminPage.ts";
 import styled from "styled-components";
 import {useAuth} from "../../auth/authContext.tsx";
+import {Post} from "../../types/types-post.ts";
+import {post} from "axios";
 
 const AdminContainer = styled.div`
     padding: 40px;
@@ -52,24 +54,48 @@ const DeleteButton = styled(Button)`
     }
 `;
 
-const AdminPage: React.FC<AdminPageProps> = ({posts, deletePost}) => {
-    const {user} = useAuth()
+const AdminPage: React.FC<AdminPageProps> = () => {
+    const [posts, setPosts] = useState<Post[]>([]);
+    const { user } = useAuth();
     const navigate = useNavigate();
 
     if (!user || user.role !== 'professor') {
         navigate('/login');
         return null;
     }
-    const handleDelete = (id: number) => {
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const response = await fetch('/api/posts');
+                const data = await response.json();
+                setPosts(data);
+            } catch (error){
+                console.error('Erro ao buscar posts:, error');
+            }
+        };
+
+        fetchPosts()
+    }, []);
+
+    const deletePost = async (id: number) => {
         const confirmDelete = window.confirm('Voce tem certeza que quer excluir esse post?')
         if (confirmDelete) {
-            deletePost(id);
-        }
+            try {
+                await fetch(`/api/posts/${id}`, {method: 'Delete'});
+                setPosts(posts.filter(post => post.id !== id));
+            } catch (error) {
+                console.error('Erro ao excluir o post:', error);
+            }
+    }
     };
 
     return(
         <AdminContainer>
             <h1>Pagina Administrativa</h1>
+            <Link to="/create">
+                <Button>Criar novo Post</Button>
+            </Link>
             <Table>
                 <thead>
                 <tr>
@@ -87,7 +113,7 @@ const AdminPage: React.FC<AdminPageProps> = ({posts, deletePost}) => {
                             <Link to={`/edit/${post.id}`}>
                                 <Button>Editar</Button>
                             </Link>
-                            <DeleteButton onClick={() => handleDelete(post.id)}>Deletar</DeleteButton>
+                            <DeleteButton onClick={() => deletePost(post.id)}>Deletar</DeleteButton>
                         </td>
                     </tr>
                 ))}

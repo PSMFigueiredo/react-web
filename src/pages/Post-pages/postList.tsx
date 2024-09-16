@@ -2,7 +2,6 @@ import React from "react";
 import {PostListProps} from "../../types/postList.ts";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
-import {Post} from "../../types/types-post.ts";
 
 const PostListContainer = styled.div`
     display: flex;
@@ -37,30 +36,8 @@ const PostDescription = styled.p`
     font-size: 14px;
     color: #444;
 `;
-const examplePosts: Post[] = [
-    {
-        id: 1,
-        title: 'Primeira postagem',
-        author: 'João Silva',
-        description: 'Essa é a descrição da primeira postagem de exemplo.',
-    },
-    {
-        id: 2,
-        title: 'Segunda postagem',
-        author: 'Maria Oliveira',
-        description: 'Descrição da segunda postagem para teste.',
-    },
-    {
-        id: 3,
-        title: 'Terceira postagem',
-        author: 'Carlos Souza',
-        description: 'Uma terceira postagem de exemplo para ver como o layout se comporta.',
-    },
-];
 
-const PostList: React.FC = () => {
-    const posts = examplePosts;
-
+const PostList: React.FC<PostListProps> = ({ posts }) => {
     if (posts.length === 0) {
 return <p>Sem posts encontrados.</p>;
     }

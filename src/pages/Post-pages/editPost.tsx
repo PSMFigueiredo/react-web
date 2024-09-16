@@ -1,46 +1,46 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import {editPostProps} from "../../types/EditPost.ts";
+import {Post} from "../../types/types-post.ts";
 
-
-const EditPost: React.FC<editPostProps> = ({posts, updatePost}) => {
+const EditPost: React.FC = () => {
     const {id} = useParams<{id: string}>();
-    const post = posts.find(p => p.id === parseInt(id || '', 10 ));
+    const [post,setPost] = useState<Post | null>(null);
     const navigate = useNavigate();
 
-    const [title, setTitle] = useState('');
-    const [author, setAuthor] = useState('');
-    const [description, setDescription] = useState('');
-    const [content, setContent] = useState('');
-
     useEffect(() => {
-        if (post) {
-            setTitle(post.title);
-            setAuthor(post.author);
-            setDescription(post.description);
-            setContent(post.content);
-        }
-    }, [post]);
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (post) {
-            const updatedPost = {
-                ...post,
-                title,
-                author,
-                description,
-                content
+        const fetchPost = async() => {
+            try {
+                const response = await fetch(`/api/post/${id}`);
+                const data = await response.json();
+                setPost(data);
+            }catch (error){
+                console.error('Erro ao buscar o post:', error);
             }
-            updatePost(updatedPost);
-            navigate(`/post/${post.id}`);
+        };
+        fetchPost();
+    }, [id]);
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (post){
+            try {
+                await fetch(`/api/post/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(post),
+                });
+                navigate(`/posts/${post.id}`);
+            } catch (error){
+                console.error('Erro ao atualizar o post:', error);
+            }
         }
     };
 
-    if (!post){
-        return<p> Post nao encontrado.</p>;
+    if (!post) {
+        return <p>Post nao encontrado.</p>
     }
-
 
     return (
         <div>
@@ -49,10 +49,10 @@ const EditPost: React.FC<editPostProps> = ({posts, updatePost}) => {
                 <div>
                     <label htmlFor="title">Titulo:</label>
                     <input
-                    type="text"
-                    id="title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                        type="text"
+                        id="title"
+                        value={post.title}
+                        onChange={(e) => setPost({...post, title: e.target.value})}
                     required
                     />
                 </div>
@@ -61,8 +61,8 @@ const EditPost: React.FC<editPostProps> = ({posts, updatePost}) => {
                     <input
                         type="text"
                         id="author"
-                        value={author}
-                        onChange={(e) => setAuthor(e.target.value)}
+                        value={post.author}
+                        onChange={(e) => setPost({ ...post, author: e.target.value})}
                         required
                     />
                 </div>
@@ -71,8 +71,8 @@ const EditPost: React.FC<editPostProps> = ({posts, updatePost}) => {
                     <input
                         type="text"
                         id="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        value={post.description}
+                        onChange={(e) => setPost({ ...post, description: e.target.value })}
                         required
                     />
                 </div>
@@ -80,15 +80,14 @@ const EditPost: React.FC<editPostProps> = ({posts, updatePost}) => {
                     <label htmlFor="content">Conteudo:</label>
                     <textarea
                         id="content"
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
+                        value={post.content}
+                        onChange={(e) => setPost({  ...post, content: e.target.value})}
                         required
                     />
                 </div>
-                <button type="submit"> Salvar alterações</button>
+                <button type="submit">Salvar alterações</button>
             </form>
         </div>
     );
 };
-
-export default EditPost
+ export default EditPost

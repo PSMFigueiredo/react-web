@@ -6,9 +6,11 @@ interface User {
     id: number;
     name: string;
     role: string;
+    username: string;
+    password: string;
 }
 export interface AuthContextType{
-    user: User | null;
+    user: Omit<User, 'password'> | null;
     login: (username: string, password: string) => boolean;
     logout: () => void;
 }
@@ -24,19 +26,38 @@ export const useAuth = (): AuthContextType => {
 
 // Crie o componente AuthProvider
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<Omit<User, 'password'> | null>(null);
+
+    const users: User[] = [
+        {
+            id: 1,
+            name: 'Professor João',
+            role: 'professor',
+            username: 'professor',
+            password: 'senha123',
+        },
+        {
+            id: 2,
+            name: 'Aluno Maria',
+            role: 'aluno',
+            username: 'aluno',
+            password: 'senha456',
+        },
+    ];
 
     const login = (username: string, password: string): boolean => {
         // Implemente sua lógica de autenticação aqui
-        // Para demonstração, vamos aceitar qualquer username/password
-        const authenticatedUser: User = {
-            id: 1,
-            name: username,
-            role: 'professor', // ou 'aluno', baseado na sua lógica
-        };
-        setUser(authenticatedUser);
-        return true;
-    };
+        const authenticatedUser= users.find(
+        (user) => user.username === username && user.password === password
+        );
+        if (authenticatedUser) {
+            const {password, ...userWithoutPassword} = authenticatedUser;
+            setUser(userWithoutPassword);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     const logout = () => {
         setUser(null);
@@ -48,3 +69,4 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         </AuthContext.Provider>
     );
 };
+
