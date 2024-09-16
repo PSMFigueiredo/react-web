@@ -5,12 +5,12 @@ const Main = styled.main`
 flex: 1;
 display: flex;
 flex-direction: column;
+padding-top: 80px;
 justify-content: center;
-padding: 20px;
 align-items: center;
 `;
 
-const MainContent: React.FC<{ children: React.ReactNode}> = ({ children }) => {
+const MainContent: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
         <Main>
             {children}

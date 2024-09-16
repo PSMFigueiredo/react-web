@@ -3,13 +3,13 @@ import styled from "styled-components";
 
 
 const FooterContainer = styled.footer`
-background-color: blue;
+background-color:#191970;
 color: white;
 text-align: center;
-padding: 10px 0;
-position: fixed;
-bottom: 0
-width: 100%;
+padding: 20px;
+position:absolute;
+bottom: 0px;
+width:100%;
 `;
 
 const Footer: React.FC = () => {

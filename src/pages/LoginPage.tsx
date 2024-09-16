@@ -1,14 +1,16 @@
-import React, {useState} from "react";
-import {useAuth} from "../auth/authContext.tsx";
-import {useNavigate} from "react-router-dom";
+import React, { useState } from "react";
+import { useAuth } from "../auth/authContext.tsx";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const LoginContainer = styled.div`
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items:center;
+    max-height: 400px;
     height: 100vh;
-    background-color: #f0f0f0;
+    background-color: #6959CD;
+    width:100%;
 `;
 
 const LoginCard = styled.div`
@@ -21,7 +23,7 @@ const LoginCard = styled.div`
 `;
 
 const Title = styled.h1`
-    color: blue;
+    color: #191970;
     text-align: center;
     margin-bottom: 20px;
 `;
@@ -32,6 +34,7 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
+    background-color: #fff;
     padding: 10px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
@@ -41,7 +44,7 @@ const Input = styled.input`
 
 const Button = styled.button`
     padding: 10px;
-    background-color: #007bff;
+    background-color: #191970;
     color: white;
     font-size: 16px;
     border: none;
@@ -60,7 +63,7 @@ const ErrorMessage = styled.p`
 `;
 
 const LoginPage: React.FC = () => {
-    const {login} = useAuth();
+    const { login } = useAuth();
     const navigate = useNavigate();
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
@@ -69,7 +72,7 @@ const LoginPage: React.FC = () => {
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
         const success = login(username, password);
-        if (success){
+        if (success) {
             navigate('/admin')
         } else {
             setErrorMessage('Usuario Invalido');
@@ -87,20 +90,20 @@ const LoginPage: React.FC = () => {
                         placeholder="Usuario"
                         value={username}
                         onChange={(e) => setUserName(e.target.value)}
-                        required/>
+                        required />
                     <Input
                         type="password"
                         id="password"
                         placeholder="Senha"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        required/>
+                        required />
                     {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                     <Button type="submit">Login</Button>
                 </Form>
-        </LoginCard>
-</LoginContainer>
-);
+            </LoginCard>
+        </LoginContainer>
+    );
 };
 
 export default LoginPage
