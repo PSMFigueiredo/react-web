@@ -35,6 +35,7 @@ const Form = styled.form`
 
 const Input = styled.input`
     background-color: #fff;
+    color: #767676;
     padding: 10px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
@@ -45,7 +46,7 @@ const Input = styled.input`
 const Button = styled.button`
     padding: 10px;
     background-color: #191970;
-    color: white;
+    color: #fff;
     font-size: 16px;
     border: none;
     border-radius: 4px;
