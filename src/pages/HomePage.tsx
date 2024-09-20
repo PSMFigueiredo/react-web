@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import React from "react";
+import Footer from "../components/Footer/footer";
 
 const HomeContainer = styled.div`
     display: flex;
@@ -13,7 +14,7 @@ const HomeContainer = styled.div`
 
 const Heading = styled.h1`
     font-size: 36px;
-    color: #666;
+    color: #fff;
     margin-bottom: 40px;
     text-align: center;
     max-width: 600px;
@@ -21,7 +22,7 @@ const Heading = styled.h1`
 
 const SubHeading = styled.p`
     font-size: 18px;
-    color: #666;
+    color: #fff;
     margin-bottom: 40px;
     text-align: center;
     max-width: 600px;
@@ -38,8 +39,9 @@ const Image = styled.img`
 const HomePage: React.FC = () => {
     return (
         <HomeContainer>
-            <Heading>Bem-vindo ao Blog Escola</Heading>
-            <SubHeading> Explore os posts dos seus professores, comente em um post que tenha gostado!</SubHeading>
+            <Heading>Seja bem-vindo ao Blog da Escola!</Heading>
+            <SubHeading>Aqui você pode explorar os posts dos seus professores, compartilhar suas opiniões e participar das discussões sobre os temas que mais te interessam.</SubHeading>
+            <SubHeading>Não deixe de comentar nos seus favoritos!</SubHeading>
         </HomeContainer>
     );
 };
