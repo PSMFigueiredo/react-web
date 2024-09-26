@@ -5,7 +5,6 @@ const Main = styled.main`
 flex: 1;
 display: flex;
 flex-direction: column;
-padding-top: 80px;
 justify-content: center;
 align-items: center;
 `;

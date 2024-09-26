@@ -1,11 +1,11 @@
 import React, {useState} from "react";
-import { BrowserRouter as Router } from 'react-router-dom'
 import {AuthProvider} from "./auth/authContext.tsx";
 import AppRoutes from "./routes/AppRoutes.tsx";
 import {Post} from "./types/types-post.ts";
 import Header from "./components/Header/Header.tsx";
 import MainContent from "./components/MainContent/MainContent.tsx";
 import Footer from "./components/Footer/footer.tsx";
+import {BrowserRouter} from "react-router-dom";
 
 
 const App: React.FC = () => {
@@ -15,19 +15,19 @@ const App: React.FC = () => {
         const newPostWithId = {...newPost, id: posts.length + 1};
         setPosts([...posts, newPostWithId]);
     };
-     return (
-         <div className="app-container">
-             <Header />
-             <div>
-             <MainContent>
+    return (
         <AuthProvider>
-            <AppRoutes posts={posts} addPost={addPost} />
+            <BrowserRouter>
+            <div className="app-container">
+                <Header/>
+                    <MainContent>
+                        <AppRoutes posts={posts} addPost={addPost}/>
+                    </MainContent>
+                <Footer/>
+            </div>
+            </BrowserRouter>
         </AuthProvider>
-             </MainContent>
-             </div>
-             <Footer />
-    </div>
-);
+    );
 };
 
 export default App

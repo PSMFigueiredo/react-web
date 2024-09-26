@@ -1,65 +1,75 @@
 import React from "react";
 import styled from "styled-components";
+import HistoryRouter, {Link, useNavigate} from "react-router-dom";
+import {useAuth} from "../../auth/authContext.tsx";
+import displayName = HistoryRouter.displayName;
 
 const HeaderContainer = styled.header`
     background-color: #191970;
     color: white;
-    padding: 20px 40px;
     margin: 0 auto;
     position:absolute;
     top: 0px;
     width:100%;
+    justify-content: space-between;
+    display: flex;
+`;
+
+const Button = styled.button`
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const DivPaiHeader = styled.div`
+    width: 100%;
+  display: flex;
+    justify-content: space-between;
+`;
+
+const DivBtnLoginHeader = styled.div`
+  padding-top: 50px;
+    padding-right: 16px;
 `;
 
 const HeaderTitle = styled.h1`
     text-align: center;
 `;
 
-const Nav = styled.nav`
-    ul {
-        list-style: none;
-        display: flex;
-        justify-content:center;
-        margin: 0;
-        padding: 0;
-        
-        li{
-            margin-left: 20px;
-        }
-        
-        a{
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            transition: color 0.3s;
-            
-            &:hover {
-                color: #61dafb;
-            };
-        };
-    };
-`;
-
 const Header: React.FC = () => {
+    const {user, logout } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
     return (
         <HeaderContainer>
-            <div>
+            <DivPaiHeader>
+                <div>
+
+                </div>
                 <div>
                     <HeaderTitle>Blog Escola</HeaderTitle>
                 </div>
-                <div>
-                    <Nav>
-                        <ul>
-                            <li><a href="/">Pagina inicial</a></li>
-                            <li><a href="/classes">Listar Classes</a></li>
-                            <li><a href="/posts"> Listar Posts</a></li>
-                            <li><a href="/professors"> Listar Professores</a></li>
-                            <li><a href="/students">Listar estudantes</a></li>
-                        </ul>
-                    </Nav>
-                </div>
-
-            </div>
+                <DivBtnLoginHeader>
+                    {user ? (
+                        <Button onClick={handleLogout}>Logout</Button>
+                    ) : (
+                        <Link to="/login">
+                            <Button>Login</Button>
+                        </Link>
+                    )}
+                </DivBtnLoginHeader>
+            </DivPaiHeader>
 
         </HeaderContainer>
     );

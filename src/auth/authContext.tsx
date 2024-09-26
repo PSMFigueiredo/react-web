@@ -1,5 +1,4 @@
-import React, {createContext, ReactNode, useContext, useState} from "react";
-import {AuthContextType} from "../types/AuthContextType.ts";
+import React, {createContext, useContext, useState} from "react";
 
 
 interface User {
@@ -9,19 +8,21 @@ interface User {
     username: string;
     password: string;
 }
+
 export interface AuthContextType{
     user: Omit<User, 'password'> | null;
     login: (username: string, password: string) => boolean;
     logout: () => void;
 }
 
-
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
 export const useAuth = (): AuthContextType => {
     const context = useContext(AuthContext);
     if(!context){
-        throw new Error('\'useAuth deve ser usado dentro de um AuthProvider\'')
-    } return context;
+        throw new Error("'useAuth' deve ser usado dentro de um 'AuthProvider'")
+    }
+    return context;
 };
 
 // Crie o componente AuthProvider
@@ -70,3 +71,4 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     );
 };
 
+export default AuthProvider
