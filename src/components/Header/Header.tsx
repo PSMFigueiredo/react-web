@@ -48,7 +48,7 @@ const Header: React.FC = () => {
                     <HeaderTitle>Blog Escola</HeaderTitle>
                 </div>
                 <div>
-                    <Nav>
+                    {/* <Nav>
                         <ul>
                             <li><a href="/">Pagina inicial</a></li>
                             <li><a href="/classes">Listar Classes</a></li>
@@ -56,7 +56,7 @@ const Header: React.FC = () => {
                             <li><a href="/professors"> Listar Professores</a></li>
                             <li><a href="/students">Listar estudantes</a></li>
                         </ul>
-                    </Nav>
+                    </Nav> */}
                 </div>
 
             </div>

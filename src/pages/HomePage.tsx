@@ -1,14 +1,22 @@
 import styled from "styled-components";
 import React from "react";
-import Footer from "../components/Footer/footer";
+import Login from "../components/Login/Login";
 
-const HomeContainer = styled.div`
+const HomeMainContent = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background-color:#6959CD;
+`;
+
+const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    background-color:#6959CD;
+    width: 40%;
     padding: 20px;
 `;
 
@@ -28,21 +36,18 @@ const SubHeading = styled.p`
     max-width: 600px;
 `;
 
-const Image = styled.img`
-    width: 100%;
-    max-width: 600px;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-`;
-
 const HomePage: React.FC = () => {
     return (
-        <HomeContainer>
-            <Heading>Seja bem-vindo ao Blog da Escola!</Heading>
-            <SubHeading>Aqui você pode explorar os posts dos seus professores, compartilhar suas opiniões e participar das discussões sobre os temas que mais te interessam.</SubHeading>
-            <SubHeading>Não deixe de comentar nos seus favoritos!</SubHeading>
-        </HomeContainer>
+        <HomeMainContent>
+            <Container>
+                <Heading>Seja bem-vindo ao Blog da Escola!</Heading>
+                <SubHeading>Aqui você pode explorar os posts dos seus professores, compartilhar suas opiniões e participar das discussões sobre os temas que mais te interessam.</SubHeading>
+                <SubHeading>Não deixe de comentar nos seus favoritos!</SubHeading>
+            </Container>
+            <Container>
+                <Login/>
+            </Container>
+        </HomeMainContent>
     );
 };
 
