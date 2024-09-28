@@ -54,7 +54,7 @@ const DeleteButton = styled(Button)`
     }
 `;
 
-const AdminPage: React.FC<AdminPageProps> = () => {
+const AdminPage: React.FC = () => {
     const [posts, setPosts] = useState<Post[]>([]);
     const { user } = useAuth();
     const navigate = useNavigate();

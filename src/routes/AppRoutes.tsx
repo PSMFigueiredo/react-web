@@ -10,14 +10,10 @@ import AdminPage from '../pages/professors-pages/Admin-page';
 
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode; role?: string }> = ({children, role}) => {
-    const {user} = useAuth();
+    const {isAuthenticated} = useAuth();
 
-    if (!user) {
+    if (!isAuthenticated) {
         return <Navigate to="/login"/>
-    }
-
-    if (role && user.role !== role) {
-        return <Navigate to="/"/>
     }
 
     return <>{children}</>;
