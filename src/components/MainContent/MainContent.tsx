@@ -7,6 +7,7 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
+    padding: 70px;
 `;
 
 const MainContent: React.FC<{ children: React.ReactNode }> = ({ children }) => {

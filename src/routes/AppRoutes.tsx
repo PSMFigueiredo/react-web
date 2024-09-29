@@ -5,31 +5,40 @@ import HomePage from '../pages/HomePage';
 import PostDetail from '../pages/Post-pages/postDetail';
 import LoginPage from '../pages/LoginPage';
 import CreatePost from '../pages/Post-pages/createPost';
-import EditPost from '../pages/Post-pages/editPost';
+import EditPost from '../pages/professors-pages/editPost.tsx';
 import AdminPage from '../pages/professors-pages/Admin-page';
+import { Post } from '../types/types-post';
 
+interface AppRoutesProps {
+    posts: Post[];
+    setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
+    addPost: (newPost: Omit<Post, 'id'>) => void;
+}
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode; role?: string }> = ({children, role}) => {
-    const {isAuthenticated} = useAuth();
+    const {user} = useAuth();
 
-    if (!isAuthenticated) {
+    if (!user) {
         return <Navigate to="/login"/>
+    }
+
+    if (role && user.role !== role) {
+        return <Navigate to="/"/>
     }
 
     return <>{children}</>;
 };
-
-const AppRoutes: React.FC = () => {
+const AppRoutes: React.FC <AppRoutesProps> = ({ posts, setPosts, addPost }) => {
     return (
         <Routes>
-            <Route path="/" element={<HomePage/>}/>
-            <Route path="/posts/:id" element={<PostDetail/>}/>
+            <Route path="/" element={<HomePage posts={posts}/>}/>
+            <Route path="/posts/:id" element={<PostDetail posts={posts}/>}/>
             <Route path="/login" element={<LoginPage/>}/>
             <Route
                 path="/create"
                 element={
                     <ProtectedRoute role="professor">
-                        <CreatePost/>
+                        <CreatePost addPost={ addPost}/>
                     </ProtectedRoute>
                 }
             />
@@ -37,7 +46,7 @@ const AppRoutes: React.FC = () => {
                 path="/edit/:id"
                 element={
                     <ProtectedRoute role="professor">
-                        <EditPost/>
+                        <EditPost posts={posts} setPosts={setPosts}/>
                     </ProtectedRoute>
                 }
             />

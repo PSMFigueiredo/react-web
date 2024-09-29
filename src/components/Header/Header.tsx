@@ -13,6 +13,7 @@ const HeaderContainer = styled.header`
     width:100%;
     justify-content: space-between;
     display: flex;
+    height: 100px;
 `;
 
 const Button = styled.button`
@@ -35,7 +36,7 @@ const DivPaiHeader = styled.div`
 `;
 
 const DivBtnLoginHeader = styled.div`
-  padding-top: 50px;
+  padding-top: 20px;
     padding-right: 16px;
 `;
 

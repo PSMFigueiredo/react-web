@@ -33,7 +33,7 @@ const Span = styled.span`
 `;
 
 const Login: React.FC = () => {
-    const { isAuthenticated, login } = useAuth();
+    const { user, login } = useAuth();
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -46,8 +46,8 @@ const Login: React.FC = () => {
 
         login(email, password);
 
-        if (isAuthenticated) {
-            navigate('/create')
+        if (user) {
+            navigate('/admin')
         } else {
             setErrorMessage('Usuario Invalido');
         }
