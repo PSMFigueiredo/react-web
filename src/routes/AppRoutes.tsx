@@ -2,11 +2,11 @@ import React from 'react';
 import { Navigate, Route, Routes} from 'react-router-dom';
 import {useAuth} from '../auth/authContext';
 import HomePage from '../pages/HomePage';
-import PostDetail from '../pages/Post-pages/postDetail';
+import PostDetail from '../pages/Post/postDetail';
 import LoginPage from '../pages/LoginPage';
-import CreatePost from '../pages/Post-pages/createPost';
-import EditPost from '../pages/professors-pages/editPost.tsx';
-import AdminPage from '../pages/professors-pages/Admin-page';
+import CreatePost from '../pages/professors/createPost.tsx';
+import EditPost from '../pages/professors/editPost.tsx';
+import AdminPage from '../pages/professors/Admin-page';
 import { Post } from '../types/types-post';
 
 interface AppRoutesProps {
