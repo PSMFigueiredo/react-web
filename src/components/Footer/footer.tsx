@@ -7,10 +7,10 @@ const FooterContainer = styled.footer`
     color: white;
     margin: 0 auto;
     text-align: center;
-    bottom: 0px;
-    width: 100%;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
     padding: 10px;
-    position: fixed;
 `;
 
 const Footer: React.FC = () => {

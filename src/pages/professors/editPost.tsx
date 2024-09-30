@@ -89,8 +89,9 @@ const EditPost: React.FC<EditPostProps> = ({ posts, setPosts }) => {
         if (post) {
             // Atualiza o post na lista de posts
             const updatedPosts = posts.map((p) => (p.id === post.id ? post : p));
+            localStorage.setItem(`posts`, JSON.stringify(updatedPosts))
             setPosts(updatedPosts);
-            navigate(`/posts/${post.id}`);
+            navigate(`/`);
         }
     };
 

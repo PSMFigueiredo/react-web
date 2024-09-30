@@ -6,7 +6,7 @@ import styled from "styled-components";
 import {FaEdit} from "react-icons/fa";
 
 const PostDetailContainer = styled.div`
-    padding: 50px 80px;
+    padding: 2rem;
     max-width: 800px;
     margin: 40px auto;
     background-color: #ffffff;
@@ -16,6 +16,7 @@ const PostDetailContainer = styled.div`
 
 const PostTitle = styled.h1`
     font-size: 2.5rem;
+    margin-top: 0;
     margin-bottom: 20px;
     color: #333333;
     text-align: center;
@@ -27,7 +28,7 @@ const Divider = styled.hr`
 `
 const PostMeta = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   gap: 10px;
   margin-bottom: 20px;
   color: #777777;
@@ -42,7 +43,6 @@ const PostContent = styled.p`
     font-size: 1.1rem;
     line-height: 1.6;
     color: #444444;
-    margin-bottom: 100px;
 `;
 
 const EditButton = styled.button`
@@ -63,14 +63,15 @@ const EditIcon = styled(FaEdit)`
     margin-right: 5px;
 `;
 
-const CommentsSection = styled.div`
-    margin-top: 40px;
+const CommentsTitle = styled.h3`
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #1a1a1a;
 `;
 
-const CommentsTitle = styled.h3`
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-`;
+const PrimeiroAComentar = styled.p`
+    color: #1a1a1a;
+`
 
 const CommentList = styled.ul`
     list-style-type: none;
@@ -116,6 +117,10 @@ const SubmitButton = styled.button`
     }
 `;
 
+const BackButton = styled.button`
+    padding: 10px;
+    background-color: #6d72ae;
+`
 
 const PostDetail: React.FC<PostDetailProps> = ({ posts, canEdit }) => {
     const {id} = useParams<{ id: string }>();
@@ -140,6 +145,10 @@ if (!post) {
             <PostTitle>{post.title}</PostTitle>
             <PostMeta>
                 <PostAuthor>{post.author}</PostAuthor>
+
+                <Link to="/">
+                    <BackButton>Voltar</BackButton>
+                </Link>
             </PostMeta>
 
             <Divider>
@@ -157,7 +166,7 @@ if (!post) {
                 </Link>
             )}
 
-            <CommentsSection>
+            <div>
                 <CommentsTitle>Comentários</CommentsTitle>
                 {comments.length > 0 ? (
                     <CommentList>
@@ -166,15 +175,15 @@ if (!post) {
                         ))}
                     </CommentList>
                 ) : (
-                    <p>Sem comentários. Seja o primeiro a comentar!</p>
+                    <PrimeiroAComentar>Sem comentários. Seja o primeiro a comentar!</PrimeiroAComentar>
                 )}
                 <CommentTextArea
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                     placeholder="Adicione um comentário"
                 />
-                <SubmitButton onClick={handleAddComment}>Enviar</SubmitButton>
-            </CommentsSection>
+                <SubmitButton onClick={handleAddComment}>Comentar</SubmitButton>
+            </div>
         </PostDetailContainer>
     );
 

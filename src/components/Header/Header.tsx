@@ -6,12 +6,9 @@ import {useAuth} from "../../auth/authContext.tsx";
 const HeaderContainer = styled.header`
     background-color: #191970;
     color: white;
-    margin: 0 auto;
     position:absolute;
-    top: 0px;
+    top: 0;
     width:100%;
-    justify-content: space-between;
-    display: flex;
     height: 100px;
 `;
 
@@ -41,6 +38,8 @@ const DivBtnLoginHeader = styled.div`
 
 const HeaderTitle = styled.h1`
     text-align: center;
+    margin-left: 1rem;
+    margin-top: 10px;
 `;
 
 const Header: React.FC = () => {
@@ -54,9 +53,6 @@ const Header: React.FC = () => {
     return (
         <HeaderContainer>
             <DivPaiHeader>
-                <div>
-
-                </div>
                 <div>
                     <HeaderTitle>Blog Escola</HeaderTitle>
                 </div>

@@ -8,6 +8,7 @@ const Container = styled.div`
     width: 40%;
     display : flex;
     justify-content: center;
+    padding: calc(100vh - 650px);
     align-items: center;
 `;
 

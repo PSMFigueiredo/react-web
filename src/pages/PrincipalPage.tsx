@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
-import {Post} from "../../types/types-post";
+import {Post} from "../types/types-post.ts";
 import {FaEdit, FaTrash} from 'react-icons/fa';
-import {useAuth} from "../../auth/authContext.tsx";
+import {useAuth} from "../auth/authContext.tsx";
+import {getPosts} from "../services/api.tsx";
 
-const AdminContainer = styled.div`
+const HomeContainer = styled.div`
     padding: 40px;
     max-width: 1200px;
     margin: 0 auto;
@@ -108,26 +109,30 @@ const ContainerSuperior = styled.div`
     display: grid;
 `
 
-const AdminPage: React.FC = () => {
+const PrincipalPage: React.FC = () => {
     const [posts, setPosts] = useState<Post[]>([]);
     const {user} = useAuth();
     const ehProfessor = user?.role === `professor`;
     useEffect(() => {
         const fetchPosts = async () => {
-            // Simula um atraso na resposta da "API"
-            await new Promise((resolve) => setTimeout(resolve, 500));
-            setPosts(JSON.parse(localStorage.getItem(`posts`) ?? `[]`));
+            const storedPosts = /*await getPosts();*/ JSON.parse(localStorage.getItem('posts') ?? '[]');
+
+            setPosts(storedPosts);
         };
 
-        fetchPosts()//.then(r => );
+        fetchPosts();
     }, []);
 
     const deletePost = async (id: number) => {
         const confirmDelete = window.confirm('Você tem certeza que quer excluir esse post?');
         if (confirmDelete) {
             try {
-                // Simula a exclusão do post
-                setPosts(posts.filter((post) => post.id !== id));
+                const updatedPosts = posts.filter((post) => post.id !== id);
+
+                setPosts(updatedPosts);
+
+                localStorage.setItem('posts', JSON.stringify(updatedPosts));
+
             } catch (error) {
                 console.error('Erro ao excluir o post:', error);
             }
@@ -146,7 +151,7 @@ const AdminPage: React.FC = () => {
     }, [posts, searchTerm]);
 
     return (
-        <AdminContainer>
+        <HomeContainer>
             <ContainerSuperior>
                 {ehProfessor &&
                     (<h1>Página Administrativa</h1>) &&
@@ -186,8 +191,8 @@ const AdminPage: React.FC = () => {
                     </Card>
                 ))}
             </CardsContainer>
-        </AdminContainer>
+        </HomeContainer>
     );
 };
 
-export default AdminPage;
+export default PrincipalPage;

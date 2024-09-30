@@ -3,6 +3,7 @@ import styled from "styled-components";
 import {Post} from "../../types/types-post.ts";
 import {useNavigate} from "react-router-dom";
 import {Button} from "../../components/Button/Button.tsx";
+import { toast } from "react-toastify";
 
 const CreatePostContainer = styled.div`
     max-width: 600px;
@@ -87,6 +88,7 @@ interface CreatePostProps {
 }
 
 const CreatePost: React.FC<CreatePostProps> = ({addPost}) => {
+    toast("Wow so easy!");
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
     const [description, setDescription] = useState('');
@@ -119,12 +121,13 @@ const CreatePost: React.FC<CreatePostProps> = ({addPost}) => {
             description,
             content,
         })
+        toast("Wow so easy!");
         navigate('/admin')
     };
 
     return (
         <CreatePostContainer>
-            <Title>Criar um Novo Post</Title>
+            <Title>Novo Post</Title>
             <Form onSubmit={handleSubmit}>
                 <Input
                     type="text"

@@ -1,32 +1,38 @@
 import axios from 'axios';
 
 
-const url = 'http://localhost:3000/';
+const url = 'https://ftwznzgyxsjakblzabqk.supabase.co';
+const supaBaseKey = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0d3puemd5eHNqYWtibHphYnFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc3MzA2NjQsImV4cCI6MjA0MzMwNjY2NH0.DWNuZh3A_oQBlAWOwk_ezfHEV4c-urGjS-gMdeu3VsI`;
 const token = 'some-token';
 
 const api = axios.create({
     baseURL: url,  // Altere para a URL do seu back-end
 });
 
-export const createProfessor = async (body: object) => {
-    console.log(body);
-    try {
-        const response = await api.post('professors', body, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        return response.data;
-    } catch (error) {
-        console.log("Ocorreu um erro:", error);
-    }
-};
+const postURL = `/rest/v1/post`;
 
 export const userLogin = async (body: object) => {
     try {
-        const response = await api.post('users/login', body, {
+        const response = await api.post('/auth/v1/token?grant_type=password', body, {
             headers: {
+                'apiKey': supaBaseKey,
                 'Authorization': `Bearer ${token}`
+            }
+        });
+        if(response.status == 200)
+            localStorage.setItem(`token`, response.data.access_token);
+        return response.data;
+    } catch (error) {
+        console.log("Ocorreu um erro:", error);
+    }
+};
+
+export const getPosts = async () => {
+    try {
+        const response = await api.get(postURL, {
+            headers: {
+                'apiKey': supaBaseKey,
+                'Authorization': `Bearer ${localStorage.getItem(`token`)}`
             }
         });
         return response.data;
@@ -35,23 +41,4 @@ export const userLogin = async (body: object) => {
     }
 };
 
-// const login = async () => {
-//     try {
-//         const response = await axios.post('users/login', {
-//             headers: {
-//                 'Authorization': `Bearer ${token}`
-//             }
-//         });
-//         console.log(response.data);
-//     } catch (error) {
-//         console.log("Ocorreu um erro:", error);
-//     }
-// };
-
-// export const login = (body) => api.post('/users/login', body);
-
-// export const getPosts = () => api.get('/posts');
-// export const createPost = (post) => api.post('/posts', post);
-// export const updatePost = (id, post) => api.put(`/posts/${id}`, post);
-// export const deletePost = (id) => api.delete(`/posts/${id}`);
 

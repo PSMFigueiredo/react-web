@@ -1,12 +1,11 @@
 import React from 'react';
 import {Navigate, Route, Routes} from 'react-router-dom';
 import {useAuth} from '../auth/authContext';
-import HomePage from '../pages/HomePage';
 import PostDetail from '../pages/Post/postDetail';
 import LoginPage from '../pages/LoginPage';
 import CreatePost from '../pages/professors/createPost.tsx';
 import EditPost from '../pages/professors/editPost.tsx';
-import AdminPage from '../pages/professors/Admin-page';
+import PrincipalPage from '../pages/PrincipalPage.tsx';
 import {Post} from '../types/types-post';
 
 interface AppRoutesProps {
@@ -32,7 +31,7 @@ const AppRoutes: React.FC<AppRoutesProps> = ({posts, setPosts, addPost}) => {
     const {user} = useAuth();
     return (
         <Routes>
-            <Route path="/" element={<AdminPage/>}/>
+            <Route path="/" element={<PrincipalPage/>}/>
             <Route path="/posts/:id" element={<PostDetail posts={posts} canEdit={user?.role === `professor`}/>}/>
             <Route path="/login" element={<LoginPage/>}/>
             <Route
@@ -55,7 +54,7 @@ const AppRoutes: React.FC<AppRoutesProps> = ({posts, setPosts, addPost}) => {
                 path="/admin"
                 element={
                     <ProtectedRoute role="professor">
-                        <AdminPage/>
+                        <PrincipalPage/>
                     </ProtectedRoute>
                 }
             />

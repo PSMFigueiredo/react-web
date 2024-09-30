@@ -1,4 +1,5 @@
 import React, {createContext, useContext, useState} from "react";
+import {userLogin} from "../services/api.tsx";
 
 
 interface User {
@@ -47,6 +48,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     ];
 
     const login = (username: string, password: string): boolean => {
+        userLogin({email: username, password: password}).then(r => console.log(r));
+
         // Implemente sua lógica de autenticação aqui
         const authenticatedUser= users.find(
         (user) => user.username === username && user.password === password

@@ -4,7 +4,6 @@ import AppRoutes from "./routes/AppRoutes.tsx";
 import {Post} from "./types/types-post.ts";
 import Header from "./components/Header/Header.tsx";
 import MainContent from "./components/MainContent/MainContent.tsx";
-import Footer from "./components/Footer/footer.tsx";
 import {BrowserRouter} from "react-router-dom";
 
 
@@ -26,7 +25,6 @@ const App: React.FC = () => {
                     <MainContent>
                         <AppRoutes posts={posts} setPosts={setPosts} addPost={addPost}/>
                     </MainContent>
-                <Footer/>
             </div>
             </BrowserRouter>
         </AuthProvider>
