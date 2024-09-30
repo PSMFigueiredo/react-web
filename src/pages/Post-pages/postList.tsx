@@ -1,7 +1,7 @@
-import React from "react";
-import {PostListProps} from "../../types/postList.ts";
+import React, { useState } from "react";
+import { PostListProps } from "../../types/postList.ts";
 import styled from "styled-components";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const PostListContainer = styled.div`
     display: flex;
@@ -37,20 +37,54 @@ const PostDescription = styled.p`
     color: #444;
 `;
 
-const PostList: React.FC<PostListProps> = ({ posts }) => {
+interface Post {
+    id: string;
+    title: string;
+    content: string;
+    author: string;
+    published: boolean;
+}
+
+const PostsSamples: Array<Post> = [
+    {
+        id: "d48e67b0-57c0-4282-a8e0-d64300d332c6",
+        title: "Post 1",
+        content: "Conteudo do Post 1",
+        author: "655cac42-3465-47d1-b485-eab735584ce0",
+        published: true,
+    },
+    {
+        id: "d7e6ce17-ce8c-442a-9333-2b1bfe09b7b3",
+        title: "Post 2",
+        content: "Conteudo do Post 2",
+        author: "9076051e-bbae-4daa-8d81-2f5b24ccf748",
+        published: true,
+    },
+    {
+        id: "e171e9c2-281e-444b-abb1-d19dcfedb1ab",
+        title: "Post 3",
+        content: "Conteudo do Post 3",
+        author: "21fc9577-5444-4a0e-afd2-c66333c899a5",
+        published: true,
+    },
+]
+
+
+const PostList: React.FC = () => {
+    const [posts, setPosts] = useState(PostsSamples)
     if (posts.length === 0) {
-return <p>Sem posts encontrados.</p>;
+        return <p>Sem posts encontrados.</p>;
     }
     return (
         <PostListContainer>
             <h1>Lista de Posts</h1>
             {posts.map((post) => (
                 <PostItem key={post.id}>
-                    <Link to={`/posts/:id${post.id}`}>
-                    <PostTitle>{post.title}</PostTitle>
+                    <Link to={`/posts/${post.id}`}>
+                        <PostTitle>{post.title}</PostTitle>
                     </Link>
                     <PostAuthor><strong>Autor:</strong> {post.author}</PostAuthor>
-                    <PostDescription>{post.description}</PostDescription>
+                    <PostDescription>{post.content}</PostDescription>
                 </PostItem>
             ))}
         </PostListContainer>

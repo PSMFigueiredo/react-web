@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useAuth } from "../../auth/authContext";
+import { useAuth } from "../../contexts/authContext";
 import { Input } from "../Input/Input";
 import { Form } from "../Form/Form";
 import { Button } from "../Button/Button";
@@ -47,7 +47,7 @@ const Login: React.FC = () => {
         login(email, password);
 
         if (isAuthenticated) {
-            navigate('/create')
+            navigate('/edit')
         } else {
             setErrorMessage('Usuario Invalido');
         }

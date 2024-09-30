@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {AdminPageProps} from "../../types/AdminPage.ts";
 import styled from "styled-components";
-import {useAuth} from "../../auth/authContext.tsx";
+import {useAuth} from "../../contexts/authContext.tsx";
 import {Post} from "../../types/types-post.ts";
 import {post} from "axios";
 

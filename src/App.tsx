@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { BrowserRouter as Router } from 'react-router-dom'
-import {AuthProvider} from "./auth/authContext.tsx";
+import {AuthProvider} from "./contexts/authContext.tsx";
 import AppRoutes from "./routes/AppRoutes.tsx";
 import {Post} from "./types/types-post.ts";
 import Header from "./components/Header/Header.tsx";

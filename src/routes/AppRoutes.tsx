@@ -1,12 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
-import { useAuth } from '../auth/authContext';
+import { useAuth } from '../contexts/authContext';
 import HomePage from '../pages/HomePage';
 import PostDetail from '../pages/Post-pages/postDetail';
 import LoginPage from '../pages/LoginPage';
 import CreatePost from '../pages/Post-pages/createPost';
 import EditPost from '../pages/Post-pages/editPost';
 import AdminPage from '../pages/professors-pages/Admin-page';
+import PostList from '../pages/Post-pages/postList';
 
 
 
@@ -14,7 +15,7 @@ const ProtectedRoute: React.FC<{children: JSX.Element; role?: string}> = ({child
     const { isAuthenticated } = useAuth();
 
     if(!isAuthenticated) {
-        return <Navigate to="/login" />
+        return <Navigate to="/" />
     }
 
     return children;
@@ -28,7 +29,7 @@ const AppRoutes: React.FC = () => {
                 <Route path="/posts/:id" element={<PostDetail />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route
-                    path="/create"
+                    path="/posts/create"
                     element={
                         <ProtectedRoute role="professor">
                             <CreatePost />
@@ -36,7 +37,7 @@ const AppRoutes: React.FC = () => {
                     }
                 />
                 <Route
-                    path="/edit/:id"
+                    path="/posts/edit"
                     element={
                         <ProtectedRoute role="professor">
                             <EditPost />
@@ -49,6 +50,12 @@ const AppRoutes: React.FC = () => {
                         <ProtectedRoute role="professor">
                             <AdminPage />
                         </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/posts"
+                    element={
+                            <PostList />
                     }
                 />
                 <Route path="*" element={<Navigate to="/" />} />

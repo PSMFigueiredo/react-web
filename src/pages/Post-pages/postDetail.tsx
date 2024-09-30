@@ -73,19 +73,45 @@ const EditLink = styled(Link)`
     }
 `;
 
-const PostDetail: React.FC<PostDetailProps> = ({ posts }) => {
+const PostsSamples: Array<Post> = [
+    {
+        id: "d48e67b0-57c0-4282-a8e0-d64300d332c6",
+        title: "Post 1",
+        content: "Conteudo do Post 1",
+        author: "655cac42-3465-47d1-b485-eab735584ce0",
+        published: true,
+    },
+    {
+        id: "d7e6ce17-ce8c-442a-9333-2b1bfe09b7b3",
+        title: "Post 2",
+        content: "Conteudo do Post 2",
+        author: "9076051e-bbae-4daa-8d81-2f5b24ccf748",
+        published: true,
+    },
+    {
+        id: "e171e9c2-281e-444b-abb1-d19dcfedb1ab",
+        title: "Post 3",
+        content: "Conteudo do Post 3",
+        author: "21fc9577-5444-4a0e-afd2-c66333c899a5",
+        published: true,
+    },
+]
+
+const PostDetail: React.FC<PostDetailProps> = () => {
+    const [posts, setPosts] = useState(PostsSamples)
     const {id} = useParams<{ id: string }>();
-    const post = posts.find(p => p.id === parseInt(id || '', 10));
+    
+    const post = posts.find(p => p.id === id);
 
-    const [comments, setComments] = useState<string[]>([]);
-    const [newComment, setNewComment] = useState<string>('');
+    // const [comments, setComments] = useState<string[]>([]);
+    // const [newComment, setNewComment] = useState<string>('');
 
-    const handleAddComment = () => {
-        if (newComment.trim()){
-            setComments([...comments, newComment]);
-            setNewComment('');
-        }
-    };
+    // const handleAddComment = () => {
+    //     if (newComment.trim()){
+    //         setComments([...comments, newComment]);
+    //         setNewComment('');
+    //     }
+    // };
 
 if (!post) {
     return <p>Post nao encontrado!</p>
@@ -96,13 +122,11 @@ return (
         <PostTitle>{post.title}</PostTitle>
         <PostAuthor><strong>Autor</strong> {post.author}</PostAuthor>
 
-        {post.image && <PostImage src={post.image} alt={post.title} /> }
-
         <PostContent>{post.content}</PostContent>
 
         <EditLink to={`/editPost.tsx${post.id}`}>Editar Post</EditLink>
 
-        <CommentsSection>
+        {/* <CommentsSection>
             <h3>Comentarios</h3>
             {comments.length > 0 ? (
                 <ul>
@@ -119,7 +143,7 @@ return (
                 placeholder="Adicione um comentario"
             />
             <SubmitButton onClick={handleAddComment}>Enviar</SubmitButton>
-        </CommentsSection>
+        </CommentsSection> */}
     </PostDetailContainer>
 );
 };
