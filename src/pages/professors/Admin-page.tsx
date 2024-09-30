@@ -1,103 +1,119 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 import styled from "styled-components";
-import { useAuth } from "../../auth/authContext";
-import { Post } from "../../types/types-post";
-import { FaEdit, FaTrash } from 'react-icons/fa';
-import { samplePosts } from "../../testes/postExemplo"
-
+import {Post} from "../../types/types-post";
+import {FaEdit, FaTrash} from 'react-icons/fa';
+import {useAuth} from "../../auth/authContext.tsx";
 
 const AdminContainer = styled.div`
-  padding: 40px;
-  max-width: 1200px;
-  margin: 0 auto;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
 `;
 
 const Button = styled.button`
-  padding: 8px 12px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-bottom: 20px;
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
 
-  &:hover {
-    background-color: #0056b3;
-  }
+    &:hover {
+        background-color: #0056b3;
+    }
 `;
 
 const CardsContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 `;
 
 const Card = styled.div`
-  background-color: #D4E5FD;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  width: calc(33.333% - 20px);
-  padding: 20px;
-  box-sizing: border-box;
+    background-color: #D4E5FD;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: calc(33.333% - 20px);
+    padding: 20px;
+    box-sizing: border-box;
 
-  @media (max-width: 768px) {
-    width: calc(50% - 20px);
-  }
+    @media (max-width: 768px) {
+        width: calc(50% - 20px);
+    }
 
-  @media (max-width: 480px) {
-    width: 100%;
-  }
+    @media (max-width: 480px) {
+        width: 100%;
+    }
 `;
 
 const CardTitle = styled.h2`
-  font-size: 1.5em;
-  margin-bottom: 10px;
+    font-size: 1.5em;
+    margin-bottom: 10px;
     color: #000;
 `;
 
 const CardDescription = styled.p`
-  color: #666;
-  margin-bottom: 15px;
+    color: #666;
+    margin-bottom: 15px;
 `;
 
 const CardAuthor = styled.p`
-  font-weight: bold;
-  margin-bottom: 15px;
+    font-weight: bold;
+    margin-bottom: 15px;
     color: #000;
 `;
 
 const ActionsContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
 `;
 
 const IconButton = styled.button`
-  background: none;
-  border: none;
-  color: #007bff;
-  cursor: pointer;
-  font-size: 1.2em;
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 1.2em;
 
-  &:hover {
-    color: #0056b3;
-  }
+    &:hover {
+        color: #0056b3;
+    }
 `;
 
+const Heading = styled.h1`
+    font-size: 36px;
+    color: #fff;
+    margin-bottom: 40px;
+    text-align: center;
+    max-width: 600px;
+`;
+
+const SearchInput = styled.input`
+    padding: 10px;
+    background-color: #f9f9f9;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 600px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+`;
 
 const AdminPage: React.FC = () => {
     const [posts, setPosts] = useState<Post[]>([]);
-    const { user } = useAuth();
-
+    const {user} = useAuth();
+    const ehProfessor = user?.role === `professor`;
     useEffect(() => {
         const fetchPosts = async () => {
             // Simula um atraso na resposta da "API"
             await new Promise((resolve) => setTimeout(resolve, 500));
-            setPosts(samplePosts);
+            setPosts(JSON.parse(localStorage.getItem(`posts`) ?? `[]`));
         };
 
-        fetchPosts();
+        fetchPosts()//.then(r => );
     }, []);
 
     const deletePost = async (id: number) => {
@@ -114,26 +130,37 @@ const AdminPage: React.FC = () => {
 
     return (
         <AdminContainer>
-            <h1>Página Administrativa</h1>
-            <Link to="/create">
-                <Button>Criar novo Post</Button>
-            </Link>
+            {ehProfessor &&
+                (<h1>Página Administrativa</h1>) &&
+                (<Link to="/create">
+                    <Button>Criar novo Post</Button>
+                </Link>
+            )}
+            <Heading>Seja bem-vindo ao Blog da Escola!</Heading>
+            <SearchInput
+                type="text"
+                placeholder="Buscar posts..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
             <CardsContainer>
                 {posts.map((post) => (
                     <Card key={post.id}>
-                        <CardTitle>{post.title}</CardTitle>
-                        <CardDescription>{post.description}</CardDescription>
-                        <CardAuthor>Autor: {post.author}</CardAuthor>
-                        <ActionsContainer>
-                            <Link to={`/edit/${post.id}`}>
-                                <IconButton>
-                                    <FaEdit />
+                        <Link to={`/posts/${post.id}`}>
+                            <CardTitle>{post.title}</CardTitle>
+                            <CardDescription>{post.description}</CardDescription>
+                            <CardAuthor>Autor: {post.author}</CardAuthor>
+                            <ActionsContainer>
+                                <Link to={`/edit/${post.id}`}>
+                                    <IconButton>
+                                        <FaEdit/>
+                                    </IconButton>
+                                </Link>
+                                <IconButton onClick={() => deletePost(post.id)}>
+                                    <FaTrash/>
                                 </IconButton>
-                            </Link>
-                            <IconButton onClick={() => deletePost(post.id)}>
-                                <FaTrash />
-                            </IconButton>
-                        </ActionsContainer>
+                            </ActionsContainer>
+                        </Link>
                     </Card>
                 ))}
             </CardsContainer>
