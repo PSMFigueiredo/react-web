@@ -117,10 +117,10 @@ const SubmitButton = styled.button`
 `;
 
 
-const PostDetail: React.FC<PostDetailProps> = ({ posts }) => {
+const PostDetail: React.FC<PostDetailProps> = ({ posts, canEdit }) => {
     const {id} = useParams<{ id: string }>();
     const post = posts.find(p => p.id === parseInt(id || '', 10));
-
+    const apresentaBtnEditar = canEdit;
     const [comments, setComments] = useState<string[]>([]);
     const [newComment, setNewComment] = useState<string>('');
 
@@ -148,12 +148,14 @@ if (!post) {
 
             <PostContent>{post.content}</PostContent>
 
-            <Link to={`/edit/${post.id}`}>
-                <EditButton>
-                    <EditIcon />
-                    Editar Post
-                </EditButton>
-            </Link>
+            {apresentaBtnEditar && (
+                <Link to={`/edit/${post.id}`}>
+                    <EditButton>
+                        <EditIcon />
+                        Editar Post
+                    </EditButton>
+                </Link>
+            )}
 
             <CommentsSection>
                 <CommentsTitle>Comentários</CommentsTitle>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate, Route, Routes} from 'react-router-dom';
+import {Navigate, Route, Routes} from 'react-router-dom';
 import {useAuth} from '../auth/authContext';
 import HomePage from '../pages/HomePage';
 import PostDetail from '../pages/Post/postDetail';
@@ -7,7 +7,7 @@ import LoginPage from '../pages/LoginPage';
 import CreatePost from '../pages/professors/createPost.tsx';
 import EditPost from '../pages/professors/editPost.tsx';
 import AdminPage from '../pages/professors/Admin-page';
-import { Post } from '../types/types-post';
+import {Post} from '../types/types-post';
 
 interface AppRoutesProps {
     posts: Post[];
@@ -28,17 +28,18 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; role?: string }> = (
 
     return <>{children}</>;
 };
-const AppRoutes: React.FC <AppRoutesProps> = ({ posts, setPosts, addPost }) => {
+const AppRoutes: React.FC<AppRoutesProps> = ({posts, setPosts, addPost}) => {
+    const {user} = useAuth();
     return (
         <Routes>
-            <Route path="/" element={<HomePage posts={posts}/>}/>
-            <Route path="/posts/:id" element={<PostDetail posts={posts}/>}/>
+            <Route path="/" element={<AdminPage/>}/>
+            <Route path="/posts/:id" element={<PostDetail posts={posts} canEdit={user?.role === `professor`}/>}/>
             <Route path="/login" element={<LoginPage/>}/>
             <Route
                 path="/create"
                 element={
                     <ProtectedRoute role="professor">
-                        <CreatePost addPost={ addPost}/>
+                        <CreatePost addPost={addPost}/>
                     </ProtectedRoute>
                 }
             />

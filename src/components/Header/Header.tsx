@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import HistoryRouter, {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../../auth/authContext.tsx";
-import displayName = HistoryRouter.displayName;
 
 const HeaderContainer = styled.header`
     background-color: #191970;

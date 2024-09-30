@@ -6,15 +6,17 @@ import Header from "./components/Header/Header.tsx";
 import MainContent from "./components/MainContent/MainContent.tsx";
 import Footer from "./components/Footer/footer.tsx";
 import {BrowserRouter} from "react-router-dom";
-import samplePosts from "./testes/postExemplo.tsx";
 
 
 const App: React.FC = () => {
-    const [posts, setPosts] = useState<Post[]>(samplePosts);
+    const [posts, setPosts] = useState<Post[]>(JSON.parse(localStorage.getItem(`posts`) ?? `[]`));
 
     const addPost = (newPost: Omit<Post, 'id'>) => {
         const newPostWithId = {...newPost, id: posts.length + 1};
         setPosts([...posts, newPostWithId]);
+        const parse: Post[] = JSON.parse(localStorage.getItem(`posts`) ?? `[]`);
+        parse.push(newPostWithId);
+        localStorage.setItem(`posts`, JSON.stringify(parse))
     };
     return (
         <AuthProvider>

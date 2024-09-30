@@ -86,7 +86,8 @@ const IconButton = styled.button`
 const Heading = styled.h1`
     font-size: 36px;
     color: #fff;
-    margin-bottom: 40px;
+    align-self: center;
+    margin: 0 auto 2rem auto;
     text-align: center;
     max-width: 600px;
 `;
@@ -94,13 +95,18 @@ const Heading = styled.h1`
 const SearchInput = styled.input`
     padding: 10px;
     background-color: #f9f9f9;
-    margin-bottom: 20px;
+    margin: 0 auto 1rem auto;
     width: 100%;
+    color: #1a1a1a;
     max-width: 600px;
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 10px;
 `;
+
+const ContainerSuperior = styled.div`
+    display: grid;
+`
 
 const AdminPage: React.FC = () => {
     const [posts, setPosts] = useState<Post[]>([]);
@@ -128,38 +134,54 @@ const AdminPage: React.FC = () => {
         }
     };
 
+    const [searchTerm, setSearchTerm] = useState("");
+    const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
+    useEffect(() => {
+        const results = posts.filter(post =>
+            post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            post.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            post.author.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredPosts(results);
+    }, [posts, searchTerm]);
+
     return (
         <AdminContainer>
-            {ehProfessor &&
-                (<h1>Página Administrativa</h1>) &&
-                (<Link to="/create">
-                    <Button>Criar novo Post</Button>
-                </Link>
-            )}
-            <Heading>Seja bem-vindo ao Blog da Escola!</Heading>
-            <SearchInput
-                type="text"
-                placeholder="Buscar posts..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-            />
+            <ContainerSuperior>
+                {ehProfessor &&
+                    (<h1>Página Administrativa</h1>) &&
+                    (<Link to="/create">
+                            <Button>Criar novo Post</Button>
+                        </Link>
+                    )}
+                {!ehProfessor && (<Heading>Seja bem-vindo ao Blog da Escola!</Heading>)}
+                <SearchInput
+                    type="text"
+                    placeholder="Buscar posts..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            </ContainerSuperior>
+
             <CardsContainer>
-                {posts.map((post) => (
+                {filteredPosts.map((post) => (
                     <Card key={post.id}>
                         <Link to={`/posts/${post.id}`}>
                             <CardTitle>{post.title}</CardTitle>
                             <CardDescription>{post.description}</CardDescription>
                             <CardAuthor>Autor: {post.author}</CardAuthor>
-                            <ActionsContainer>
-                                <Link to={`/edit/${post.id}`}>
-                                    <IconButton>
-                                        <FaEdit/>
+                            {ehProfessor && (
+                                <ActionsContainer>
+                                    <Link to={`/edit/${post.id}`}>
+                                        <IconButton>
+                                            <FaEdit/>
+                                        </IconButton>
+                                    </Link>
+                                    <IconButton onClick={() => deletePost(post.id)}>
+                                        <FaTrash/>
                                     </IconButton>
-                                </Link>
-                                <IconButton onClick={() => deletePost(post.id)}>
-                                    <FaTrash/>
-                                </IconButton>
-                            </ActionsContainer>
+                                </ActionsContainer>
+                            )}
                         </Link>
                     </Card>
                 ))}
