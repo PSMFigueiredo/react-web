@@ -14,15 +14,19 @@ const ProtectedRoute: React.FC<{children: JSX.Element; role?: string}> = ({child
     const { isAuthenticated } = useAuth();
 
     if(!isAuthenticated) {
-        return <Navigate to="/login" />
+        <Navigate to="/login" />
     }
 
+    else
+        <Navigate to="/"/>
+
     return children;
+    
 };
 
 const AppRoutes: React.FC = () => {
     return (
-        <Router>
+
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/posts/:id" element={<PostDetail />} />
@@ -53,7 +57,7 @@ const AppRoutes: React.FC = () => {
                 />
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
-        </Router>
+        
     );
 };
 

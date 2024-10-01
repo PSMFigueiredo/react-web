@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useAuth } from "../../Context/authContext";
 import { Input } from "../Input/Input";
 import { Form } from "../Form/Form";
 import { Button } from "../Button/Button";
-import { useProf } from "../../Context/professorContext";
+import {useProf}  from "../../Context/professorContext";
+
 
 const Title = styled.h1`
 color: #191970;
@@ -46,7 +47,10 @@ const Login: React.FC = () => {
 
         login(email, password);
         if (auth){
+
+            console.log(auth);
             getProfessor(auth.refreshToken.userId, auth.token);
+            
             console.log(Professor);
         }
 

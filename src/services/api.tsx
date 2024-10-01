@@ -33,24 +33,7 @@ export const getProfessorApi = async (id: string, token: string) => {
     try {
         const response = await api.post(`professors/${id}`, {
             headers: {
-                'apiKey': supaBaseKey,
                 'Authorization': `Bearer ${token}`
-            }
-        });
-        if(response.status == 200)
-            localStorage.setItem(`token`, response.data.access_token);
-        return response.data;
-    } catch (error) {
-        console.log("Ocorreu um erro:", error);
-    }
-};
-
-export const getPosts = async () => {
-    try {
-        const response = await api.get(postURL, {
-            headers: {
-                'apiKey': supaBaseKey,
-                'Authorization': `Bearer ${localStorage.getItem(`token`)}`
             }
         });
         return response.data;
@@ -219,13 +202,6 @@ export const deletePostApi = async (id: string, token: string) => {
         console.log("Ocorreu um erro:", error);
     }
 };
-import axios from 'axios';
-
-
-const url = 'http://localhost:3000/';
-const api = axios.create({
-    baseURL: url,  // Altere para a URL do seu back-end
-});
 
 export const getProfessorByUserApi = async (id: string, token: string) => {
     try {
@@ -234,15 +210,8 @@ export const getProfessorByUserApi = async (id: string, token: string) => {
                 'Authorization': `Bearer ${token}`
             }
         });
-        return response.data;
-    } catch (error) {
-        console.log("Ocorreu um erro:", error);
-    }
-};
-
-export const userLoginApi = async (body: object) => {
-    try {
-        const response = await api.post('users/login', body);
+        console.log(id);
+        console.timeLog(token);
         return response.data;
     } catch (error) {
         console.log("Ocorreu um erro:", error);

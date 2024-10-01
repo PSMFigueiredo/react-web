@@ -73,7 +73,7 @@ const EditLink = styled(Link)`
     }
 `;
 
-const PostDetail: React.FC<PostDetailProps> = ({ posts }) => {
+const PostDetail: React.FC = ({  }) => {
     const {id} = useParams<{ id: string }>();
     const post = posts.find(p => p.id === parseInt(id || '', 10));
 

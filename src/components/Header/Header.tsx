@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import {Link, useNavigate} from "react-router-dom";
-import {useAuth} from "../../auth/authContext.tsx";
+import { useAuth } from "../../Context/authContext";
+
 
 const HeaderContainer = styled.header`
     background-color: #191970;
@@ -43,7 +44,7 @@ const HeaderTitle = styled.h1`
 `;
 
 const Header: React.FC = () => {
-    const {user, logout } = useAuth();
+    const {isAuthenticated, logout } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -57,7 +58,7 @@ const Header: React.FC = () => {
                     <HeaderTitle>Blog Escola</HeaderTitle>
                 </div>
                 <DivBtnLoginHeader>
-                    {user ? (
+                    {isAuthenticated ? (
                         <Button onClick={handleLogout}>Logout</Button>
                     ) : (
                         <Link to="/login">
