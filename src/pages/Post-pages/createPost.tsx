@@ -50,31 +50,12 @@ const SubmitButton = styled.button`
     }
 `;
 
-const ImagePreview = styled.img`
-    width: 100%;
-    height: auto;
-    margin-bottom: 20px;
-    border-radius: 8px;
-`;
-
-
-
-
 const CreatePost: React.FC = () => {
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
     const [description, setDescription] = useState('');
     const [content, setContent] = useState('');
-    const [image, setImage] = useState<File | null>(null);
-    const [imagePreview, setImagePreview] = useState<string | null>(null)
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            setImage(file)
-            setImagePreview(URL.createObjectURL(file));
-    }
-};
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -83,24 +64,18 @@ const CreatePost: React.FC = () => {
         formData.append('author', author);
         formData.append('description', description);
         formData.append('content', content);
-        if (image) {
-            formData.append('image', image);
-        }
 
         console.log('Post enviado:', {
             title,
             author,
             description,
             content,
-            image,
         });
 
         setTitle('');
         setAuthor('');
         setDescription('');
         setContent('');
-        setImage(null);
-        setImagePreview(null);
     };
 
     return(
@@ -137,9 +112,6 @@ const CreatePost: React.FC = () => {
                         rows={5}
                         required
                     />
-                <Input type="file" accept="image/*" onChange={handleImageChange} />
-
-                {imagePreview && <ImagePreview src={imagePreview} alt="Preview da imagem" />}
             <SubmitButton type="submit">Criar Post</SubmitButton>
             </Form>
         </CreatePostContainer>
