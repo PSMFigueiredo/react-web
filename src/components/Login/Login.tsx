@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useAuth } from "../../contexts/authContext";
+import { useAuth } from "../../Context/authContext";
 import { Input } from "../Input/Input";
 import { Form } from "../Form/Form";
 import { Button } from "../Button/Button";
+import { useProf } from "../../Context/professorContext";
 
 const Title = styled.h1`
 color: #191970;
@@ -33,7 +34,8 @@ const Span = styled.span`
 `;
 
 const Login: React.FC = () => {
-    const { user, login } = useAuth();
+    const { auth, isAuthenticated, login } = useAuth();
+    const {getProfessor, Professor} = useProf();
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -42,12 +44,14 @@ const Login: React.FC = () => {
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
 
-
-
         login(email, password);
+        if (auth){
+            getProfessor(auth.refreshToken.userId, auth.token);
+            console.log(Professor);
+        }
 
         if (isAuthenticated) {
-            navigate('/edit')
+            navigate('/create')
         } else {
             setErrorMessage('Usuario Invalido');
         }
