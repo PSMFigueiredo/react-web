@@ -2,22 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 import { userLoginApi } from "../services/api.tsx";
 import {verify} from "jsonwebtoken";
 import { jwtDecode } from "jwt-decode";
-
-interface RefreshToken {
-    createdAt: string;
-    expiresIn: number;
-    id: string;
-    userId: string;
-}
-
-interface Auth {
-    token: string;
-    refreshToken: RefreshToken;
-}
-
-interface RefreshedToken {
-    token: string;
-}
+import { Auth } from "../types/Token.ts";
 
 export interface AuthContextType {
     isAuthenticated: boolean;
@@ -51,7 +36,6 @@ export const useAuth = (): AuthContextType => {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [auth, setAuth] = useState<Auth | null>(authSample);
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
-    const [tokenActive, setTokenActive] = useState<boolean>(true);
     
     React.useEffect(() => {
         localStorage.setItem("auth", JSON.stringify(auth));
@@ -113,7 +97,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const logout = () => {
         setAuth(null);
         setIsAuthenticated(false);
-        setTokenActive(false);
         localStorage.removeItem('auth');
     };
 

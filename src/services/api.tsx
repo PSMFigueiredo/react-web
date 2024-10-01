@@ -179,12 +179,13 @@ export const getPostApi = async (id: string, token: string) => {
 
 export const getPostsApi = async (token: string) => {
     try {
-        const response = await api.get('posts', {
+        const response = await api.get(`posts`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
         return response.data;
+        console.log(response);
     } catch (error) {
         console.log("Ocorreu um erro:", error);
     }
@@ -205,13 +206,11 @@ export const deletePostApi = async (id: string, token: string) => {
 
 export const getProfessorByUserApi = async (id: string, token: string) => {
     try {
-        const response = await api.get(`Users/Professor/${id}`, {
+        const response = await api.get(`users/professor/${id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
-        console.log(id);
-        console.timeLog(token);
         return response.data;
     } catch (error) {
         console.log("Ocorreu um erro:", error);

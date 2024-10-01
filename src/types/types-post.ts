@@ -1,7 +1,12 @@
 export interface Post{
-    id: number;
+    id: string;
     title: string;
     author: string;
-    description: string;
     content: string
+    class: Class
+}
+
+export interface Class{
+    id: string;
+    name: string;
 }

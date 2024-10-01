@@ -36,7 +36,7 @@ const Span = styled.span`
 
 const Login: React.FC = () => {
     const { auth, isAuthenticated, login } = useAuth();
-    const {getProfessor, Professor} = useProf();
+    const {getProfessor, professor} = useProf();
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -51,12 +51,18 @@ const Login: React.FC = () => {
             console.log(auth);
             getProfessor(auth.refreshToken.userId, auth.token);
             
-            console.log(Professor);
+            console.log(professor);
         }
 
-        if (isAuthenticated) {
-            navigate('/create')
-        } else {
+        if (isAuthenticated && professor) {
+            navigate('/post/admin');
+        } 
+
+        if(isAuthenticated){
+            navigate('/post');
+        }
+        
+        if(!isAuthenticated){
             setErrorMessage('Usuario Invalido');
         }
     };

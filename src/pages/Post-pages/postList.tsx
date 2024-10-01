@@ -1,7 +1,9 @@
-import React from "react";
-import {PostListProps} from "../../types/postList.ts";
+import React, { useState } from "react";
 import styled from "styled-components";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Post } from "../../types/types-post.ts";
+import { useAuth } from "../../Context/authContext.tsx";
+import { getPostsApi } from "../../services/api.tsx";
 
 const PostListContainer = styled.div`
     display: flex;
@@ -37,9 +39,25 @@ const PostDescription = styled.p`
     color: #444;
 `;
 
-const PostList: React.FC<PostListProps> = ({ posts }) => {
-    if (posts.length === 0) {
-return <p>Sem posts encontrados.</p>;
+const PostList: React.FC = () => {
+    const [posts, setPosts] = useState<Array<Post>>()
+    const { auth } = useAuth();
+
+    React.useEffect(() => {
+        if (auth) {
+            const postsResponse = async () => await getPostsApi(auth.token).then((res) => {
+                if (res) {
+                    const postsResponse: Array<Post> = res.data.posts.map((postItem: Post) => postItem);
+                    setPosts(postsResponse);
+                }
+            });
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+console.log(posts);
+    if (!posts || posts.length === 0) {
+        return <p>Sem posts encontrados.</p>;
     }
     return (
         <PostListContainer>
@@ -47,10 +65,10 @@ return <p>Sem posts encontrados.</p>;
             {posts.map((post) => (
                 <PostItem key={post.id}>
                     <Link to={`/posts/:id${post.id}`}>
-                    <PostTitle>{post.title}</PostTitle>
+                        <PostTitle>{post.title}</PostTitle>
                     </Link>
                     <PostAuthor><strong>Autor:</strong> {post.author}</PostAuthor>
-                    <PostDescription>{post.description}</PostDescription>
+                    <PostDescription>{post.content}</PostDescription>
                 </PostItem>
             ))}
         </PostListContainer>

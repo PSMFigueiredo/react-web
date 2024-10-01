@@ -13,22 +13,6 @@ import { Buffer } from 'buffer';
 window.Buffer = Buffer;
 
 const App: React.FC = () => {
-    const [posts, setPosts] = useState<Post[]>([]);
-
-    // useEffect(() => {
-        // const loginData = {
-        
-        //     email: "criar2@gmail.com",
-        //     password: "123456"
-        // };
-
-    //     login(loginData);
-    // }, []);
-
-    const addPost = (newPost: Omit<Post, 'id'>) => {
-        const newPostWithId = {...newPost, id: posts.length + 1};
-        setPosts([...posts, newPostWithId]);
-    };
      return (
         
         <Router>
@@ -37,7 +21,7 @@ const App: React.FC = () => {
                     <div className="app-container">
                     <Header/>
                     <MainContent>
-                        <AppRoutes posts={posts} setPosts={setPosts} addPost={addPost}/>
+                        <AppRoutes />
                     </MainContent>
                     </div>
             </ProfessorProvider>
