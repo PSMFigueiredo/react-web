@@ -56,6 +56,7 @@ const PostList: React.FC = () => {
     }, []);
 
 console.log(posts);
+
     if (!posts || posts.length === 0) {
         return <p>Sem posts encontrados.</p>;
     }

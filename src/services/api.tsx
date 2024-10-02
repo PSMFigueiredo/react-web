@@ -185,7 +185,6 @@ export const getPostsApi = async (token: string) => {
             }
         });
         return response.data;
-        console.log(response);
     } catch (error) {
         console.log("Ocorreu um erro:", error);
     }

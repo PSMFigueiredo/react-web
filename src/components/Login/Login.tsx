@@ -36,7 +36,7 @@ const Span = styled.span`
 
 const Login: React.FC = () => {
     const { auth, isAuthenticated, login } = useAuth();
-    const {getProfessor, professor} = useProf();
+    const {getProfessorByUser, professor} = useProf();
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -49,7 +49,7 @@ const Login: React.FC = () => {
         if (auth){
 
             console.log(auth);
-            getProfessor(auth.refreshToken.userId, auth.token);
+            getProfessorByUser(auth.refreshToken.userId, auth.token);
             
             console.log(professor);
         }
