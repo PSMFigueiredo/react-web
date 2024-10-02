@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import {AdminPageProps} from "../../types/AdminPage.ts";
 import styled from "styled-components";
-import {useAuth} from "../../Context/authContext.tsx";
 import {Post} from "../../types/types-post.ts";
-import {post} from "axios";
+import {useProf} from "../../Context/professorContext.tsx";
 
 const AdminContainer = styled.div`
     padding: 40px;
@@ -56,10 +54,10 @@ const DeleteButton = styled(Button)`
 
 const AdminPage: React.FC = () => {
     const [posts, setPosts] = useState<Post[]>([]);
-    const { user } = useAuth();
+    const { professor } = useProf();
     const navigate = useNavigate();
 
-    if (!user || user.role !== 'professor') {
+    if (!professor || professor.role !== 'professor') {
         navigate('/login');
         return null;
     }
@@ -78,7 +76,7 @@ const AdminPage: React.FC = () => {
         fetchPosts()
     }, []);
 
-    const deletePost = async (id: number) => {
+    const deletePost = async (id: string) => {
         const confirmDelete = window.confirm('Voce tem certeza que quer excluir esse post?')
         if (confirmDelete) {
             try {

@@ -1,8 +1,11 @@
-
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
-import {PostDetailProps} from "../../types/PostDetail.ts";
 import styled from "styled-components";
+import {getPostApi, getProfessorApi, getProfessorsApi, getUserById, getUsersApi} from "../../services/api.tsx";
+import {useAuth} from "../../Context/authContext.tsx";
+import {Post} from "../../types/types-post.ts";
+import {useProf} from "../../Context/professorContext.tsx";
+import {User} from "../../types/User.ts";
 
 const PostDetailContainer = styled.div`
     padding: 40px;
@@ -15,6 +18,7 @@ const PostDetailContainer = styled.div`
 
 const PostTitle = styled.h1`
     font-size: 32px;
+    color: #1a1a1a;
     margin-bottom: 20px;
 `;
 
@@ -29,15 +33,9 @@ const PostContent = styled.p`
     color: #333;
 `;
 
-const PostImage = styled.img`
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 20px;
-`;
-
 const CommentsSection = styled.div`
     margin-top: 40px;
+    color: #000
 `;
 
 const CommentTextArea = styled.textarea`
@@ -73,9 +71,26 @@ const EditLink = styled(Link)`
     }
 `;
 
-const PostDetail: React.FC = ({  }) => {
+const PostDetail: React.FC = () => {
     const {id} = useParams<{ id: string }>();
-    const post = posts.find(p => p.id === parseInt(id || '', 10));
+    const [post,setPost] = useState<Post | null>(null);
+    const {auth} = useAuth();
+    const {professor} = useProf();
+    const ehProfessor = professor?.role === `professor`;
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const response = await getPostApi(id ?? '', auth?.token ?? '');
+                const data = await response.data;
+                setPost(data);
+            } catch (error){
+                console.error('Erro ao buscar posts:, error');
+            }
+        };
+
+        fetchPosts()
+    }, []);
 
     const [comments, setComments] = useState<string[]>([]);
     const [newComment, setNewComment] = useState<string>('');
@@ -96,11 +111,11 @@ return (
         <PostTitle>{post.title}</PostTitle>
         <PostAuthor><strong>Autor</strong> {post.author}</PostAuthor>
 
-        {post.image && <PostImage src={post.image} alt={post.title} /> }
-
         <PostContent>{post.content}</PostContent>
 
-        <EditLink to={`/editPost.tsx${post.id}`}>Editar Post</EditLink>
+        {ehProfessor && (
+            <EditLink to={`/post/edit/${post.id}`}>Editar Post</EditLink>
+        )}
 
         <CommentsSection>
             <h3>Comentarios</h3>

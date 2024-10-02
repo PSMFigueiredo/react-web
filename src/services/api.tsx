@@ -31,7 +31,21 @@ export const updateProfessorApi = async (id: string, body: object, token: string
 
 export const getProfessorApi = async (id: string, token: string) => {
     try {
-        const response = await api.post(`professors/${id}`, {
+        const response = await api.get(`users/professor/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.log("Ocorreu um erro:", error);
+    }
+};
+
+
+export const getProfessorsApi = async (token: string) => {
+    try {
+        const response = await api.get(`professors`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -203,9 +217,22 @@ export const deletePostApi = async (id: string, token: string) => {
     }
 };
 
-export const getProfessorByUserApi = async (id: string, token: string) => {
+export const getUserById = async (id: string, token: string) => {
     try {
-        const response = await api.get(`users/professor/${id}`, {
+        const response = await api.get(`users/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.log("Ocorreu um erro:", error);
+    }
+};
+
+export const getUsersApi = async (token: string) => {
+    try {
+        const response = await api.get(`users/`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }

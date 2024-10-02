@@ -1,27 +1,26 @@
-import React, { createContext, useContext, useState } from "react";
-import { userLoginApi } from "../services/api.tsx";
-import {verify} from "jsonwebtoken";
-import { jwtDecode } from "jwt-decode";
-import { Auth } from "../types/Token.ts";
+import React, {createContext, useContext, useState} from "react";
+import {userLoginApi} from "../services/api.tsx";
+import {jwtDecode} from "jwt-decode";
+import {Auth} from "../types/Token.ts";
 
 export interface AuthContextType {
     isAuthenticated: boolean;
     auth: Auth | null;
-    login: (email: string, password: string) => void;
+    login: (email: string, password: string) => Promise<Auth>;
     logout: () => void;
 }
 
 
 
-const authSample = {
-    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3Mjc2MzYzNjEsImV4cCI6MTc0NTYzNjM2MSwic3ViIjoiZjdiOWI1MmQtNDhjZC00MTk4LTk3OGYtMWJiMDZiNzliZTI2In0.BaHaHgY9fUcNCgjffiM7AU48mKCDHnPpRkyBu8QniPc",
-    refreshToken: {
-      id: "39c9da3a-f311-4a24-8a59-35ddd0b2111a",
-      userId: "f7b9b52d-48cd-4198-978f-1bb06b79be26",
-      expiresIn: 1727639961,
-      createdAt: "2024-09-29T18:59:21.789Z"
-    }
-}
+// const authSample = {
+//     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3Mjc2MzYzNjEsImV4cCI6MTc0NTYzNjM2MSwic3ViIjoiZjdiOWI1MmQtNDhjZC00MTk4LTk3OGYtMWJiMDZiNzliZTI2In0.BaHaHgY9fUcNCgjffiM7AU48mKCDHnPpRkyBu8QniPc",
+//     refreshToken: {
+//       id: "39c9da3a-f311-4a24-8a59-35ddd0b2111a",
+//       userId: "f7b9b52d-48cd-4198-978f-1bb06b79be26",
+//       expiresIn: 1727639961,
+//       createdAt: "2024-09-29T18:59:21.789Z"
+//     }
+// }
 
 
 export const AuthContext = createContext<AuthContextType | undefined>({} as AuthContextType);
@@ -34,7 +33,7 @@ export const useAuth = (): AuthContextType => {
 
 // Crie o componente AuthProvider
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [auth, setAuth] = useState<Auth | null>(authSample);
+    const [auth, setAuth] = useState<Auth | null>(null);
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
     
     React.useEffect(() => {
@@ -75,7 +74,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 
     const login = async (email: string, password: string) => {
-        await userLoginApi({ email, password }).then((res) => {
+        return userLoginApi({ email, password }).then((res) => {
             if (res) {
                 const authResponse: Auth = {
                     token: res.data.token,
@@ -89,7 +88,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 }
                 setAuth(authResponse);
                 setIsAuthenticated(true);
-
+                return authResponse;
             }
         });
     }

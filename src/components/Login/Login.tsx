@@ -1,21 +1,21 @@
-import React, { useState} from "react";
-import { useNavigate } from "react-router-dom";
+import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
-import { useAuth } from "../../Context/authContext";
-import { Input } from "../Input/Input";
-import { Form } from "../Form/Form";
-import { Button } from "../Button/Button";
-import {useProf}  from "../../Context/professorContext";
+import {useAuth} from "../../Context/authContext";
+import {Input} from "../Input/Input";
+import {Form} from "../Form/Form";
+import {Button} from "../Button/Button";
+import {useProf} from "../../Context/professorContext";
 
 
 const Title = styled.h1`
-color: #191970;
-text-align: center;
-margin-bottom: 20px;
+    color: #191970;
+    text-align: center;
+    margin-bottom: 20px;
 `;
 
 const ErrorMessage = styled.p`
-    background-color:#e8a2a2;
+    background-color: #e8a2a2;
     color: #751010;
     text-align: center;
     border-radius: 15px;
@@ -35,8 +35,8 @@ const Span = styled.span`
 `;
 
 const Login: React.FC = () => {
-    const { auth, isAuthenticated, login } = useAuth();
-    const {getProfessorByUser, professor} = useProf();
+    const {auth, isAuthenticated, login} = useAuth();
+    const {getProfessorByUser} = useProf();
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -45,49 +45,58 @@ const Login: React.FC = () => {
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
 
-        login(email, password);
-        if (auth){
+        login(email, password).then((firstAuth) => {
+            if (firstAuth) {
 
-            console.log(auth);
-            getProfessorByUser(auth.refreshToken.userId, auth.token);
-            
-            console.log(professor);
-        }
+                console.log(auth);
+                getProfessorByUser(firstAuth.refreshToken.userId, firstAuth.token).then((perfilUsuario) => {
+                    console.log(perfilUsuario);
 
-        if (isAuthenticated && professor) {
-            navigate('/post/admin');
-        } 
+                    if (isAuthenticated && perfilUsuario) {
+                        navigate('/post/list');
+                        return;
+                    }
 
-        if(isAuthenticated){
-            navigate('/post');
-        }
-        
-        if(!isAuthenticated){
+                    if (isAuthenticated) {
+                        navigate('/post');
+                        return;
+                    }
+                }).catch(() => {
+                    setErrorMessage('Usuario Invalido');
+                    return;
+                })
+
+            } else {
+                setErrorMessage('Usuario Invalido');
+                return;
+            }
+        }).catch(() => {
             setErrorMessage('Usuario Invalido');
-        }
+            return;
+        });
     };
 
     return (
-            <Form onSubmit={handleLogin}>
-                <Title>Login</Title>
-                <Input
-                    type="text"
-                    id="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required />
-                <Input
-                    type="password"
-                    id="password"
-                    placeholder="Senha"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required />
-                {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                <Button type="submit" onClick={handleLogin}>Login</Button>
-                <Span>Não possui uma conta? <CraeteAccountButton href='/register'>Registrar-se</CraeteAccountButton></Span>
-            </Form>
+        <Form onSubmit={handleLogin}>
+            <Title>Login</Title>
+            <Input
+                type="text"
+                id="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required/>
+            <Input
+                type="password"
+                id="password"
+                placeholder="Senha"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required/>
+            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+            <Button type="submit" onClick={handleLogin}>Login</Button>
+            <Span>Não possui uma conta? <CraeteAccountButton href='/register'>Registrar-se</CraeteAccountButton></Span>
+        </Form>
     );
 };
 

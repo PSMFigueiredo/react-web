@@ -1,15 +1,13 @@
 import React from 'react';
-import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
-import { useAuth } from '../Context/authContext';
+import {Navigate, Route, Routes} from 'react-router-dom';
+import {useAuth} from '../Context/authContext';
 import HomePage from '../pages/HomePage';
 import PostDetail from '../pages/Post-pages/postDetail';
-import LoginPage from '../pages/LoginPage';
 import CreatePost from '../pages/Post-pages/createPost';
 import EditPost from '../pages/Post-pages/editPost';
 import AdminPage from '../pages/professors-pages/Admin-page';
-import { useProf } from '../Context/professorContext';
-import PostList from '../pages/Post-pages/postList';
-
+import {useProf} from '../Context/professorContext';
+import PrincipalPage from "../pages/PrincipalPage.tsx";
 
 
 const ProtectedRoute: React.FC<{ children: JSX.Element; role?: string }> = ({ children, role }) => {
@@ -33,9 +31,9 @@ const AppRoutes: React.FC = () => {
 
         <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/post/list" element={<PostList />} />
+            <Route path="/post/list" element={<PrincipalPage />} />
             <Route path="/posts/:id" element={<PostDetail />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/login" element={<HomePage />} />
             <Route
                 path="/post/create"
                 element={

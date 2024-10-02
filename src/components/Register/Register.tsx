@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
-import { useAuth } from "../../Context/authContext";
-import { Input } from "../Input/Input";
-import { Form } from "../Form/Form";
-import { Button } from "../Button/Button";
+import {useAuth} from "../../Context/authContext";
+import {Input} from "../Input/Input";
+import {Form} from "../Form/Form";
+import {Button} from "../Button/Button";
 
 const Title = styled.h1`
 color: #191970;

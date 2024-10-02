@@ -2,7 +2,6 @@ import React from "react";
 import {SearchBarProps} from "../types/SearchBar.ts";
 
 
-
 const SearchBar: React.FC<SearchBarProps> = ({searchTerm, setSearchTerm}) => {
     return(
         <input

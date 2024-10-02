@@ -1,17 +1,18 @@
 import React, {useState} from "react";
 import styled from "styled-components";
+import {createPostApi, getProfessorApi} from "../../services/api.tsx";
+import {useProf} from "../../Context/professorContext.tsx";
+import {useAuth} from "../../Context/authContext.tsx";
 
 const CreatePostContainer = styled.div`
+    width: 500px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 40px;
-    background-color: #f0f0f0;
-    color: blue;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: 0 auto;
+`;
+
+const Title = styled.h1`
+    text-align: center;
+    margin-bottom: 30px;
 `;
 
 const Form = styled.form`
@@ -21,19 +22,31 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
-    padding: 10px;
+    padding: 12px 15px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
     font-size: 16px;
+
+    &:focus {
+        border-color: #007bff;
+        outline: none
+    }
 `;
 
 const TextArea = styled.textarea`
-    padding: 10px;
+    padding: 12px 15px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
     font-size: 16px;
+    resize: vertical;
+    height: 150px;
+
+    &:focus {
+        border-color: #007bff;
+        outline: none;
+    }
 `;
 
 const SubmitButton = styled.button`
@@ -44,7 +57,7 @@ const SubmitButton = styled.button`
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    
+
     &:hover {
         background-color: #0056b3;
     }
@@ -55,6 +68,8 @@ const CreatePost: React.FC = () => {
     const [author, setAuthor] = useState('');
     const [description, setDescription] = useState('');
     const [content, setContent] = useState('');
+    const {professor} = useProf();
+    const {auth} = useAuth();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -76,43 +91,52 @@ const CreatePost: React.FC = () => {
         setAuthor('');
         setDescription('');
         setContent('');
+
+
+        getProfessorApi(professor?.id ?? '', auth?.token ?? '').then(byId => {
+            createPostApi({
+                title,
+                classId: "bcab7aef-6de7-4452-a379-a776c1048a3e",
+                content: description,
+                authorId: byId?.data?.professor?.id ?? '',
+                published: true,
+            }, auth?.token ?? '')
+        })
+
     };
 
-    return(
+    return (
         <CreatePostContainer>
-            <h1>Criar um novo post</h1>
+            <Title>Novo Post</Title>
             <Form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        placeholder="Titulo"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="text"
-                        placeholder="Descricao"
-                        id="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        required
-                    />
+                <Input
+                    type="text"
+                    placeholder="Título"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                />
+                <Input
+                    type="text"
+                    placeholder="Descrição"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    required
+                />
                 <Input
                     type="text"
                     placeholder="Autor"
-                    id="author"
                     value={author}
                     onChange={(e) => setAuthor(e.target.value)}
                     required
-                    />
-                    <TextArea
-                        placeholder="Conteudo"
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        rows={5}
-                        required
-                    />
-            <SubmitButton type="submit">Criar Post</SubmitButton>
+                />
+                <TextArea
+                    placeholder="Conteúdo"
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    required
+                />
+                <SubmitButton type="submit">Criar Post</SubmitButton>
             </Form>
         </CreatePostContainer>
     );

@@ -3,8 +3,9 @@ import {Link} from "react-router-dom";
 import styled from "styled-components";
 import {Post} from "../types/types-post.ts";
 import {FaEdit, FaTrash} from 'react-icons/fa';
-import {useAuth} from "../auth/authContext.tsx";
-import {getPosts} from "../services/api.tsx";
+import {useProf} from "../Context/professorContext.tsx";
+import {deletePostApi, getPostsApi} from "../services/api.tsx";
+import {useAuth} from "../Context/authContext.tsx";
 
 const HomeContainer = styled.div`
     padding: 40px;
@@ -111,28 +112,29 @@ const ContainerSuperior = styled.div`
 
 const PrincipalPage: React.FC = () => {
     const [posts, setPosts] = useState<Post[]>([]);
-    const {user} = useAuth();
-    const ehProfessor = user?.role === `professor`;
+    const {professor} = useProf();
+    const {auth} = useAuth();
+    const ehProfessor = professor?.role === `professor`;
     useEffect(() => {
         const fetchPosts = async () => {
-            const storedPosts = /*await getPosts();*/ JSON.parse(localStorage.getItem('posts') ?? '[]');
-
-            setPosts(storedPosts);
+            try {
+                const response = await getPostsApi(auth?.token ?? '');
+                const data = await response.data;
+                setPosts(data?.posts ?? []);
+            } catch (error){
+                console.error('Erro ao buscar posts:, error');
+            }
         };
 
-        fetchPosts();
+        fetchPosts()
     }, []);
 
-    const deletePost = async (id: number) => {
+    const deletePost = async (id: string) => {
         const confirmDelete = window.confirm('Você tem certeza que quer excluir esse post?');
         if (confirmDelete) {
             try {
-                const updatedPosts = posts.filter((post) => post.id !== id);
-
-                setPosts(updatedPosts);
-
-                localStorage.setItem('posts', JSON.stringify(updatedPosts));
-
+                await deletePostApi(id, auth?.token ?? '')
+                setPosts(posts.filter(p => p.id !== id))
             } catch (error) {
                 console.error('Erro ao excluir o post:', error);
             }
@@ -144,7 +146,7 @@ const PrincipalPage: React.FC = () => {
     useEffect(() => {
         const results = posts.filter(post =>
             post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            post.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            post.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
             post.author.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredPosts(results);
@@ -155,7 +157,7 @@ const PrincipalPage: React.FC = () => {
             <ContainerSuperior>
                 {ehProfessor &&
                     (<h1>Página Administrativa</h1>) &&
-                    (<Link to="/create">
+                    (<Link to="/post/create">
                             <Button>Criar novo Post</Button>
                         </Link>
                     )}
@@ -173,11 +175,11 @@ const PrincipalPage: React.FC = () => {
                     <Card key={post.id}>
                         <Link to={`/posts/${post.id}`}>
                             <CardTitle>{post.title}</CardTitle>
-                            <CardDescription>{post.description}</CardDescription>
+                            <CardDescription>{post.content}</CardDescription>
                             <CardAuthor>Autor: {post.author}</CardAuthor>
                             {ehProfessor && (
                                 <ActionsContainer>
-                                    <Link to={`/edit/${post.id}`}>
+                                    <Link to={`/post/edit/${post.id}`}>
                                         <IconButton>
                                             <FaEdit/>
                                         </IconButton>
